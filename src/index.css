@@ -11,4 +11,5 @@ body {
   position: relative;
   background-color: black;
   color: rgb(251, 246, 236);
+  cursor: none;
 }

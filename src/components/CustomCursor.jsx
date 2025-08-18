@@ -50,6 +50,20 @@ const CustomCursor = () => {
     };
     //   add mouse move listener
     window.addEventListener("mousemove", handleMouseMove);
+
+    //   add click animation
+    document.addEventListener("mousedown", () => {
+      gsap.to([cursor, cursorBorder], {
+        scale: 0.6,
+        duration: 0.2,
+      })
+    })
+    document.addEventListener("mouseup", () => {
+      gsap.to([cursor, cursorBorder], {
+        scale: 1,
+        duration: 0.2,
+      })
+    })
   }, []);
   return (
     <>
