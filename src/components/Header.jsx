@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import { motion, scale } from "framer-motion";
-import { a } from "framer-motion/client";
+import { motion, scale, AnimatePresence } from "framer-motion";
+import { a, div } from "framer-motion/client";
 import { FiGithub, FiTwitter, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
 import { useState } from "react";
 
 const Header = () => {
   // toggle menu open/close
   const [isOpen, setIsOpen] = useState(false);
-    const toggleMenu = () => setIsOpen(!isOpen);
-    
-    // State to track if the contact form is open 
-    const [contactFormOpen, setContactFormOpen] = useState(false)
-    const openContactForm = () => setContactFormOpen(true)
-    const closeContactForm = () => setContactFormOpen(false)
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  // State to track if the contact form is open
+  const [contactFormOpen, setContactFormOpen] = useState(false);
+  const openContactForm = () => setContactFormOpen(true);
+  const closeContactForm = () => setContactFormOpen(false);
 
   return (
     <header
@@ -111,6 +111,7 @@ const Header = () => {
           {/* Hire Me Button */}
 
           <motion.button
+            onClick={openContactForm}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -120,7 +121,7 @@ const Header = () => {
               stiffness: 100,
               damping: 3,
             }}
-            className="px-4 py-2 rounded-lg bg-black text-white bg-transparent border border-white hover:border-cyan-500 transition-all duration-300"
+            className="px-4 py-2 rounded-lg bg-black text-white bg-transparent border border-white hover:bg-cyan-300 hover:border-cyan-300 hover:text-black transition-all duration-300"
           >
             Let's Build
           </motion.button>
@@ -187,9 +188,101 @@ const Header = () => {
             Let's Build
           </button>
         </div>
-          </motion.div>
-          {/* Contact Form */}
+      </motion.div>
+      {/* Contact Form */}
+      <AnimatePresence>
+        {contactFormOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+            className="fixed inset-0 bg-black/50 
+              background-blur-sm z-50 flex 
+              items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 30 }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 30,
+                duration: 0.9,
+              }}
+              className="bg-black 
+                  rounded-xl shadow-xl w-full max-w-md p-6 border "
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h1 className="text-2xl font-bold text-white">Get in Touch</h1>
 
+                <motion.button onClick={closeContactForm}>
+                  <FiX className="w-5 h-5 font-extrabold text-white" />
+                </motion.button>
+              </div>
+              {/* input forms */}
+              <form className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="Name"
+                    className="block text-sm font-medium text-white mb-1"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="Name"
+                    placeholder="Your Name"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2
+                  focus:border-white bg-white text-black"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="Email"
+                    className="block text-sm font-medium text-white mb-1"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="Email"
+                    placeholder="Enter email"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2
+                  focus:border-white bg-black"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="Message"
+                    className="block text-sm font-medium text-white mb-1"
+                  >
+                    Your Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    id="Message"
+                    placeholder="How may I assist you?"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2
+                  focus:border-stone-200 bg-black"
+                  />
+                </div>
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.99 }}
+                  className="mt-4 block w-full px-4 py-2 rounded-lg bg-black text-white bg-transparent border border-white hover:bg-rose-300 hover:text-black hover:border-rose-700 transition-all duration-300"
+                >
+                  Send Message
+                </motion.button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
