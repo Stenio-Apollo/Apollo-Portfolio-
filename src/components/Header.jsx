@@ -2,9 +2,13 @@
 // eslint-disable-next-line no-unused-vars
 import { motion, scale } from "framer-motion";
 import { a } from "framer-motion/client";
-import { FiGithub, FiTwitter, FiLinkedin } from "react-icons/fi";
+import { FiGithub, FiTwitter, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
+import { useState } from "react";
 
 const Header = () => {
+  // toggle menu open/close
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => setIsOpen(!isOpen);
   return (
     <header
       className="absolute w-full z-50 transition-all
@@ -33,11 +37,7 @@ const Header = () => {
           >
             Rh
           </div>
-          <span
-            className="text-l text-white"
-          >
-            Rhodie
-          </span>
+          <span className="text-l text-white">Rhodie</span>
         </motion.div>
 
         {/* Desktop Navigation */}
@@ -119,7 +119,46 @@ const Header = () => {
             Let's Build
           </motion.button>
         </div>
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center">
+          <motion.button
+            whileTap={{ scale: 0.7 }}
+            onClick={toggleMenu}
+            className="text-gray-300"
+          >
+            {isOpen ? (
+              <FiX className="h-6 w-6" />
+            ) : (
+              <FiMenu className="h-6 w-6" />
+            )}
+          </motion.button>
+        </div>
       </div>
+      {/* Mobile Nav */}
+          <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{
+                  opacity: isOpen ? 1 : 0, 
+                  height: isOpen ? 'auto' : 0,
+              }}
+              transition={{ duration: 0.5}}
+              
+        className="md:hidden overflow-hidden bg-white dark:bg-black shadow-lg
+              px-4 py-5 space-y-5 "
+      >
+        <nav className="flex flex-col space-y-3">
+          {["Home", "About", "Projects", "Digital Foot-Print"].map((item) => (
+            <a
+              onClick={toggleMenu}
+              className="text-gray-300 font-medium py-2"
+              key={item}
+              href="#"
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
+      </motion.div>
     </header>
   );
 };
