@@ -8,7 +8,13 @@ import { useState } from "react";
 const Header = () => {
   // toggle menu open/close
   const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
+    const toggleMenu = () => setIsOpen(!isOpen);
+    
+    // State to track if the contact form is open 
+    const [contactFormOpen, setContactFormOpen] = useState(false)
+    const openContactForm = () => setContactFormOpen(true)
+    const closeContactForm = () => setContactFormOpen(false)
+
   return (
     <header
       className="absolute w-full z-50 transition-all
@@ -135,14 +141,13 @@ const Header = () => {
         </div>
       </div>
       {/* Mobile Nav */}
-          <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{
-                  opacity: isOpen ? 1 : 0, 
-                  height: isOpen ? 'auto' : 0,
-              }}
-              transition={{ duration: 0.5}}
-              
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{
+          opacity: isOpen ? 1 : 0,
+          height: isOpen ? "auto" : 0,
+        }}
+        transition={{ duration: 0.5 }}
         className="md:hidden overflow-hidden bg-white dark:bg-black shadow-lg
               px-4 py-5 space-y-5 "
       >
@@ -150,7 +155,7 @@ const Header = () => {
           {["Home", "About", "Projects", "Digital Foot-Print"].map((item) => (
             <a
               onClick={toggleMenu}
-              className="text-gray-300 font-medium py-2"
+              className="font-medium py-2"
               key={item}
               href="#"
             >
@@ -158,7 +163,33 @@ const Header = () => {
             </a>
           ))}
         </nav>
-      </motion.div>
+        <div
+          className="pt-4 border-t border-gray-200
+              dark;border-gray-700"
+        >
+          <div className="flex space-x-5 ">
+            <a href="#">
+              <FiGithub className="h-5 w-5 " />
+            </a>
+            <a href="#">
+              <FiTwitter className="h-5 w-5 " />
+            </a>
+            <a href="#">
+              <FiLinkedin className="h-5 w-5 " />
+            </a>
+          </div>
+          <button
+            onClick={() => {
+              toggleMenu();
+            }}
+            className="mt-4 block w-full px-4 py-2 rounded-lg bg-black text-white bg-transparent border border-white hover:border-cyan-500 transition-all duration-300"
+          >
+            Let's Build
+          </button>
+        </div>
+          </motion.div>
+          {/* Contact Form */}
+
     </header>
   );
 };
