@@ -182,6 +182,7 @@ const Header = () => {
           <button
             onClick={() => {
               toggleMenu();
+              openContactForm();
             }}
             className="mt-4 block w-full px-4 py-2 rounded-lg bg-black text-white bg-transparent border border-white hover:border-cyan-500 transition-all duration-300"
           >
