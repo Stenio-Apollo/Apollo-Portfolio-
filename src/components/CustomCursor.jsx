@@ -33,16 +33,24 @@ const CustomCursor = () => {
       duration: 0.2,
       ease: "power3.out",
     });
-    const xBorderTo = gsap.quickTo(cursorBorder, "x", {
-      duration: 0.5,
+    const xToBorder = gsap.quickTo(cursorBorder, "x", {
+      duration: 0.3,
       ease: "power.out",
     });
-    const yBorderTo = gsap.quickTo(cursorBorder, "y", {
-      duration: 0.5,
+    const yToBorder = gsap.quickTo(cursorBorder, "y", {
+      duration: 0.3,
       ease: "power3.out",
     });
-      
-  },[]);
+    //   Mouse move handler
+    const handleMouseMove = (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+      xToBorder(e.clientX);
+      yToBorder(e.clientY);
+    };
+    //   add mouse move listener
+    window.addEventListener("mousemove", handleMouseMove);
+  }, []);
   return (
     <>
       <div
