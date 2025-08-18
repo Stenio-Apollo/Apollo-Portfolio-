@@ -21,10 +21,24 @@ const HeroSection = () => {
             delay: 1.3,
             duration: 1.9,
           }}
-          className="text-3xl md:text-4xl lg:text-5xl font-bold z-10 mb-6"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold z-10 mb-1"
         >
-          building Fast <br /> Reliable Results
-        </motion.h1>
+          Rhodie
+              </motion.h1>
+              <motion.h3
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 40,
+            damping: 25,
+            delay: 1.7,
+            duration: 1.9,
+          }}
+          className="text-2md md:text-3md lg:text-7md z-10 mb-5"
+        >
+          -Stenio
+        </motion.h3>
         <motion.p
           initial={{ opacity: 0, y: 80 }}
           animate={{ opacity: 1, y: 0 }}
