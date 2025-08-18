@@ -70,11 +70,27 @@ section {
     }
   }
 
-@layer base {
-  * {
-    @apply border-border ;
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+   @font-face {
+    font-family: 'Classico' ;
+    src: url(../public/font/Classico.ttf);
+   }
+   .Classico {
+    font-family:Classico;
+   }
+   @font-face {
+    font-family: 'ClassicoBold' ;
+    src: url(../public/font/ClassicoBold.ttf);
+   }
+   .ClassicoBold {
+    font-family:ClassicoBold;
+   }
+
   }
-  body {
-    @apply bg-background text-foreground ;
-  }
-}}
+}

@@ -21,24 +21,11 @@ const HeroSection = () => {
             delay: 1.3,
             duration: 1.9,
           }}
-          className="text-3xl md:text-4xl lg:text-5xl font-bold z-10 mb-1"
+          className="ClassicoBold text-3xl md:text-4xl lg:text-5xl font-bold z-10 mb-1"
         >
           Rhodie
-              </motion.h1>
-              <motion.h3
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 40,
-            damping: 25,
-            delay: 1.7,
-            duration: 1.9,
-          }}
-          className="text-2md md:text-3md lg:text-7md z-10 mb-5"
-        >
-          -Stenio
-        </motion.h3>
+        </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 80 }}
           animate={{ opacity: 1, y: 0 }}
@@ -49,15 +36,17 @@ const HeroSection = () => {
             delay: 1.8,
             duration: 1.9,
           }}
-          className="text-xl md:text-1xl lg:text-2xl text-gray-500 max-w-2xl"
+          className="Classico text-xl md:text-1xl lg:text-2xl text-gray-500 max-w-2xl"
         >
-          I deliver robust, production-ready mobile & web applications. Every
-          project is backed by clean and concise codes, clear communication and
-          commitment to aiding in you creative endeavors.
+          "I promise to deliver robust, well-crafted production-ready mobile &
+          web applications. Every project is backed with clean and concise
+          codes, clear communication and commitment to aiding in you creative
+          endeavors. So what're you waiting for? let's get this show on the
+          'Rhode!'''
         </motion.p>
       </div>
       {/* Right Section */}
-        <Spline scene="https://prod.spline.design/UnwlUX6l4wDXbCbv/scene.splinecode" />
+      <Spline scene="https://prod.spline.design/UnwlUX6l4wDXbCbv/scene.splinecode" />
     </section>
   );
 };
