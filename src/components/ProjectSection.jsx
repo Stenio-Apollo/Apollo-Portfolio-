@@ -83,7 +83,7 @@ const ProjectSection = () => {
         rotateX: 0,
         opacity: 1,
         duration: 1,
-        ease: "power2.out",
+        ease: "power3.out",
         delay: 0.2,
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -118,49 +118,47 @@ const ProjectSection = () => {
         trigger: triggerRef.current,
         start: "top top",
         end: () => `+=${horizontalRef.current.offsetWidth}`,
-        pin: true, 
+        pin: true,
         scrub: 1,
-        snap: { 
+        snap: {
           snapTo: 1 / (projectImages.length - 1),
           duration: { main: 0.2, max: 0.3 },
-          delay: 0.1, 
-
+          delay: 0.1,
         },
-        invalidateOnRefresh: true
+        invalidateOnRefresh: true,
       },
-    })
+    });
 
     // Animate
-    const panels = gsap.utils.toArray('.panel')
+    const panels = gsap.utils.toArray(".panel");
     // eslint-disable-next-line no-unused-vars
-    panels.forEach((panel, i ) => {
-      const image = panel.querySelector('.project-image')
-      const imageTitle = panel.querySelector('.project-title')
+    panels.forEach((panel, i) => {
+      const image = panel.querySelector(".project-image");
+      const imageTitle = panel.querySelector(".project-title");
 
-      // create a timeline for eah panel 
+      // create a timeline for eah panel
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: panel, 
+          trigger: panel,
           containerAnimation: horizontalScroll,
-          start: 'left right',
-          end: 'right left',
+          start: "left right",
+          end: "right left",
           scrub: true,
-        } 
-        
-      })
+        },
+      });
       // Image scale and opacity animation
-      tl.fromTo(image, { scale: 0, rotate: -20, }, { scale: 1, rotate: 1, duration: 0.5, })
-      
+      tl.fromTo(
+        image,
+        { scale: 0, rotate: -20 },
+        { scale: 1, rotate: 1, duration: 0.5 }
+      );
+
       // Title Animation
       if (imageTitle) {
-        tl.fromTo(imageTitle, { y: 30, }, {y: -100, duration: 0.3, }, 0.2)
-
+        tl.fromTo(imageTitle, { y: 30 }, { y: -100, duration: 0.3 }, 0.2);
       }
-
-    })
-
-
-  }, [projectImages.length])
+    });
+  }, [projectImages.length]);
 
   return (
     <section
