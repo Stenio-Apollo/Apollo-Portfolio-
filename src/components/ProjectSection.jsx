@@ -111,7 +111,7 @@ const ProjectSection = () => {
       }
     );
     // Horizontal Scrolling
-    const horizontalScroll = gsap.to("panel", {
+    const horizontalScroll = gsap.to(".panel", {
       xPercent: -100 * (projectImages.length - 1),
       ease: "none",
       scrollTrigger: {
@@ -132,6 +132,7 @@ const ProjectSection = () => {
 
     // Animate
     const panels = gsap.utils.toArray('.panel')
+    // eslint-disable-next-line no-unused-vars
     panels.forEach((panel, i ) => {
       const image = panel.querySelector('.project-image')
       const imageTitle = panel.querySelector('.project-title')
@@ -159,7 +160,7 @@ const ProjectSection = () => {
     })
 
 
-  })
+  }, [projectImages.length])
 
   return (
     <section
@@ -183,7 +184,7 @@ const ProjectSection = () => {
       </div>
 
       {/* Horizontal scroll Section */}
-      <div ref={triggerRef} className="overflow-hidden">
+      <div ref={triggerRef} className="overflow-hidden opacity-0">
         <div
           ref={horizontalRef}
           className="horizontal-section flex md:w-[400%]
