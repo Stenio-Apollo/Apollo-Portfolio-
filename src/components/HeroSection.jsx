@@ -21,7 +21,7 @@ const HeroSection = () => {
             delay: 1.3,
             duration: 1.9,
           }}
-          className="ClassicoBold text-3xl md:text-4xl lg:text-5xl font-bold z-10 mb-1"
+          className="ClassicoBold text-3xl md:text-4xl lg:text-5xl font-bold z-10 mb-1  "
         >
           Rhodie
         </motion.h1>
