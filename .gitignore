@@ -11,7 +11,6 @@ node_modules
 dist
 dist-ssr
 *.local
-public/video/rh.rhodie.mp4
 
 # Editor directories and files
 .vscode/*
