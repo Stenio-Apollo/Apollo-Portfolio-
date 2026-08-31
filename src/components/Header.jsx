@@ -2,18 +2,73 @@
 // eslint-disable-next-line no-unused-vars
 import { motion, scale, AnimatePresence } from "framer-motion";
 import { a, div } from "framer-motion/client";
-import { FiGithub, FiTwitter, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
+import { FiGithub, FiInstagram, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
 import { useState } from "react";
+
+const navigationItems = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+];
+const socialLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/Stenio-Apollo",
+    Icon: FiGithub,
+    className:
+      "tet-gray-700 dark:text-gray-300 hover:text-cyan-400 dark:hover:text-cyan-400 transition-colors duration-300",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/stenio_ii/",
+    Icon: FiInstagram,
+    className:
+      "tet-gray-700 dark:text-gray-300 hover:text-rose-400 dark:hover:text-rose-400 transition-colors duration-300",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/stenio-gerlin-44119829a/",
+    Icon: FiLinkedin,
+    className:
+      "tet-gray-700 dark:text-gray-300 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-300",
+  },
+];
+const contactEmail = "s3.gerlin@gmail.com";
 
 const Header = () => {
   // toggle menu open/close
   const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const [isDigitalFootprintOpen, setIsDigitalFootprintOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsOpen((menuIsOpen) => !menuIsOpen);
+    setIsDigitalFootprintOpen(false);
+  };
+  const closeMobileMenu = () => {
+    setIsOpen(false);
+    setIsDigitalFootprintOpen(false);
+  };
+  const toggleDigitalFootprint = () => {
+    setIsDigitalFootprintOpen((digitalFootprintIsOpen) => !digitalFootprintIsOpen);
+  };
 
   // State to track if the contact form is open
   const [contactFormOpen, setContactFormOpen] = useState(false);
   const openContactForm = () => setContactFormOpen(true);
   const closeContactForm = () => setContactFormOpen(false);
+  const handleContactSubmit = (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const visitorName = formData.get("name");
+    const visitorEmail = formData.get("email");
+    const visitorMessage = formData.get("message");
+    const subject = encodeURIComponent(`New project inquiry from ${visitorName}`);
+    const body = encodeURIComponent(
+      `Name: ${visitorName}\nEmail: ${visitorEmail}\n\nMessage:\n${visitorMessage}`
+    );
+
+    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+  };
 
   return (
     <header
@@ -25,7 +80,10 @@ const Header = () => {
       md:h-20"
       >
         {/* logo/Namem */}
-        <motion.div
+        <motion.a
+          href="#home"
+          aria-label="Back to home"
+          onClick={closeMobileMenu}
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{
@@ -44,14 +102,14 @@ const Header = () => {
             Rh
           </div>
           <span className="text-l text-white">Rhodie</span>
-        </motion.div>
+        </motion.a>
 
         {/* Desktop Navigation */}
         <nav className="lg:flex hidden space-x-8">
-          {["Home", "About", "Projects", "Digital Foot-Print"].map(
-            (item, index) => (
+          {navigationItems.map(
+            ({ label, href }, index) => (
               <motion.a
-                key={item}
+                key={label}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -63,9 +121,9 @@ const Header = () => {
                 className="relative text-gray-900 dark:text-gray-200 
                           hover:white-600 dark:hover:text-white font-medium
                           transition-colors duration-300 group "
-                href="#"
+                href={href}
               >
-                {item}
+                {label}
                 <span
                   className="absolute bottom-0 left-0 w-0 h-0.5
                           bg-white group-hover:w-full transition-all duration-300"
@@ -73,41 +131,64 @@ const Header = () => {
               </motion.a>
             )
           )}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+              delay: 0.7 + navigationItems.length * 0.2,
+            }}
+            className="relative"
+          >
+            <button
+              type="button"
+              onClick={toggleDigitalFootprint}
+              aria-expanded={isDigitalFootprintOpen}
+              aria-controls="desktop-digital-footprint-menu"
+              className="relative text-gray-900 dark:text-gray-200
+                          hover:white-600 dark:hover:text-white font-medium
+                          transition-colors duration-300 group "
+            >
+              Digital Foot-Print
+              <span
+                className="absolute bottom-0 left-0 w-0 h-0.5
+                          bg-white group-hover:w-full transition-all duration-300"
+              ></span>
+            </button>
+            <AnimatePresence>
+              {isDigitalFootprintOpen && (
+                <motion.div
+                  id="desktop-digital-footprint-menu"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 top-full mt-3 flex items-center space-x-9"
+                >
+                  {socialLinks.map(({ label, href, Icon, className }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Visit Rhodie's ${label} profile`}
+                      className={className}
+                      onClick={() => setIsDigitalFootprintOpen(false)}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </nav>
 
         {/* social icons */}
 
         <div className="md:flex hidden items-center space-x-9">
-          <motion.a
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.3, duration: 0.8 }}
-            className="tet-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-500 transition-colors duration-300"
-            href="#"
-          >
-            <FiGithub className="w-5 h-5" />
-          </motion.a>
-
-          <motion.a
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.3, duration: 0.8 }}
-            className="tet-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-500 transition-colors duration-300"
-            href="#"
-          >
-            <FiTwitter className="w-5 h-5" />
-          </motion.a>
-
-          <motion.a
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.3, duration: 0.8 }}
-            className="tet-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-500 transition-colors duration-300"
-            href="#"
-          >
-            <FiLinkedin className="w-5 h-5" />
-          </motion.a>
-
           {/* Hire Me Button */}
 
           <motion.button
@@ -153,35 +234,60 @@ const Header = () => {
               px-4 py-5 space-y-5 "
       >
         <nav className="flex flex-col space-y-3">
-          {["Home", "About", "Projects", "Digital Foot-Print"].map((item) => (
+          {navigationItems.map(({ label, href }) => (
             <a
-              onClick={toggleMenu}
+              onClick={closeMobileMenu}
               className="font-medium py-2"
-              key={item}
-              href="#"
+              key={label}
+              href={href}
             >
-              {item}
+              {label}
             </a>
           ))}
+          <div>
+            <button
+              type="button"
+              onClick={toggleDigitalFootprint}
+              aria-expanded={isDigitalFootprintOpen}
+              aria-controls="mobile-digital-footprint-menu"
+              className="font-medium py-2 text-left"
+            >
+              Digital Foot-Print
+            </button>
+            <AnimatePresence>
+              {isDigitalFootprintOpen && (
+                <motion.div
+                  id="mobile-digital-footprint-menu"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex space-x-5 overflow-hidden"
+                >
+                  {socialLinks.map(({ label, href, Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Visit Rhodie's ${label} profile`}
+                      onClick={closeMobileMenu}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </a>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
         <div
           className="pt-4 border-t border-gray-200
               dark;border-gray-700"
         >
-          <div className="flex space-x-5 ">
-            <a href="#">
-              <FiGithub className="h-5 w-5 " />
-            </a>
-            <a href="#">
-              <FiTwitter className="h-5 w-5 " />
-            </a>
-            <a href="#">
-              <FiLinkedin className="h-5 w-5 " />
-            </a>
-          </div>
           <button
             onClick={() => {
-              toggleMenu();
+              closeMobileMenu();
               openContactForm();
             }}
             className="mt-4 block w-full px-4 py-2 rounded-lg bg-black text-white bg-transparent border border-white hover:border-cyan-500 transition-all duration-300"
@@ -223,7 +329,7 @@ const Header = () => {
                 </motion.button>
               </div>
               {/* input forms */}
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleContactSubmit}>
                 <div>
                   <label
                     htmlFor="Name"
@@ -234,6 +340,8 @@ const Header = () => {
                   <input
                     type="text"
                     id="Name"
+                    name="name"
+                    required
                     placeholder="Your Name"
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2
                   focus:border-white bg-white text-black"
@@ -250,6 +358,8 @@ const Header = () => {
                   <input
                     type="email"
                     id="Email"
+                    name="email"
+                    required
                     placeholder="Enter email"
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2
                   focus:border-white bg-black"
@@ -266,6 +376,8 @@ const Header = () => {
                   <textarea
                     rows={4}
                     id="Message"
+                    name="message"
+                    required
                     placeholder="How may I assist you?"
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2
                   focus:border-stone-200 bg-black"

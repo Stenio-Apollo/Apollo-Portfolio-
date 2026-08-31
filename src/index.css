@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes brand-carousel {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.brand-carousel-track {
+  animation: brand-carousel 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-carousel-track {
+    animation: none;
+  }
+}
+
 body {
   overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
@@ -90,6 +110,13 @@ section {
    }
    .ClassicoBold {
     font-family:ClassicoBold;
+   }
+   @font-face {
+    font-family: 'StarcSerifRegular' ;
+    src: url(../public/font/StarcSerifRegular.ttf);
+   }
+   .Starc {
+    font-family:StarcSerifRegular;
    }
 
   }
