@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SlShareAlt, SlVolume2, SlVolumeOff } from "react-icons/sl";
@@ -39,7 +39,7 @@ const SHOTS = [
   },
   {
     id: "connect",
-    file: "IMG_0551 2.PNG",
+    file: "IMG_0555 2.jpg",
     label: "Connect",
     // Only shot captured with the iOS status bar showing — crop it so the
     // device frame reads consistently across the rail.
@@ -144,6 +144,22 @@ const ProjectsScreen = () => {
   const [pinned, setPinned] = useState(canPinRail);
   const [showreelReady, setShowreelReady] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [showPlayButton, setShowPlayButton] = useState(false);
+
+  const startVideo = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    setMuted(true);
+
+    try {
+      await video.play();
+      setShowPlayButton(false);
+    } catch {
+      setShowPlayButton(true);
+    }
+  }, []);
 
   // Keep the pinned/native-scroll decision in sync with viewport + motion prefs.
   useEffect(() => {
@@ -156,30 +172,15 @@ const ProjectsScreen = () => {
     return () => queries.forEach((q) => q.removeEventListener("change", sync));
   }, []);
 
-  // 120MB showreel: stay off the network until it is actually on screen.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return undefined;
-
-    // Try with sound first; browsers that block unmuted autoplay get a muted
-    // retry plus the on-frame toggle, which counts as a user gesture.
-    const playWithAudio = async () => {
-      video.muted = false;
-      try {
-        await video.play();
-        setMuted(false);
-      } catch {
-        video.muted = true;
-        setMuted(true);
-        video.play().catch(() => {});
-      }
-    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setShowreelReady(true);
-          if (video.src) playWithAudio();
+          startVideo();
         } else {
           video.pause();
         }
@@ -189,14 +190,18 @@ const ProjectsScreen = () => {
 
     observer.observe(video);
     return () => observer.disconnect();
-  }, []);
+  }, [startVideo]);
+
+  useEffect(() => {
+    if (showreelReady) startVideo();
+  }, [showreelReady, startVideo]);
 
   const toggleSound = () => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = !video.muted;
     setMuted(video.muted);
-    if (!video.muted) video.play().catch(() => {});
+    video.play().then(() => setShowPlayButton(false)).catch(() => setShowPlayButton(true));
   };
 
   useEffect(() => {
@@ -542,8 +547,21 @@ const ProjectsScreen = () => {
               loop
               playsInline
               autoPlay
+              muted={muted}
               aria-label="Rhodie app walkthrough"
             />
+            {showPlayButton && (
+              <button
+                type="button"
+                onClick={startVideo}
+                className="absolute inset-0 z-[3] flex items-center justify-center bg-black/25 text-white"
+                aria-label="Play Rhodie app walkthrough"
+              >
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/50 bg-black/60 text-xl backdrop-blur-md">
+                  ▶
+                </span>
+              </button>
+            )}
             <button
               type="button"
               onClick={toggleSound}

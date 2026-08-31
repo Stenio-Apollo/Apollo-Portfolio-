@@ -3,7 +3,7 @@
 import { motion, scale, AnimatePresence } from "framer-motion";
 import { a, div } from "framer-motion/client";
 import { FiGithub, FiInstagram, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navigationItems = [
   { label: "Home", href: "#home" },
@@ -55,6 +55,16 @@ const Header = () => {
   const [contactFormOpen, setContactFormOpen] = useState(false);
   const openContactForm = () => setContactFormOpen(true);
   const closeContactForm = () => setContactFormOpen(false);
+
+  useEffect(() => {
+    const handleContactFormOpen = () => setContactFormOpen(true);
+
+    window.addEventListener("rhodie:open-contact-form", handleContactFormOpen);
+
+    return () =>
+      window.removeEventListener("rhodie:open-contact-form", handleContactFormOpen);
+  }, []);
+
   const handleContactSubmit = (event) => {
     event.preventDefault();
 

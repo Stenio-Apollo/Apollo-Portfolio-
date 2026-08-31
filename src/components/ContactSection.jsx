@@ -132,7 +132,11 @@ const ContactSection = () => {
                       code and pixel-perfect design that will give you the aesthetic edge and ease of use over the competition.
                 </p>
 
-                <button className="px-10 py-2 rounded-xl bg-black hover:bg-rose-200 hover:text-black transition-all duration-500 scale-[0.1] absolute sm:mt-9 mt-7 text-nowrap">
+                <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new Event("rhodie:open-contact-form"))}
+                    className="px-10 py-2 rounded-xl bg-black hover:bg-rose-200 hover:text-black transition-all duration-500 scale-[0.1] absolute sm:mt-9 mt-7 text-nowrap"
+                >
                     Contact Me
                 </button>
 
