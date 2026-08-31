@@ -87,11 +87,10 @@ const AboutScreen = () => {
           className="text-lg text-gray-500 md:text-2xl z-50 lg:max-w-[45rem] max-w-[27rem] border-r border-b rounded border-gray-900  
         "
         >
-          I've always been a huge believer in investing in yourself. wether it be big or small financially or with time, I think we all should always allow
-          ourselves an opportunity to optimize our current capabilities. 2 years ago I decided to make one of the biggest investments in myself, I learned to code.
-          The only times I've ever looked back was too admire how far I've come. My fields of expertise are and not limited to: Frontend Developments (React Js, Next Js,
-          Tailwind Css, Framer Motion, and more) Backend Development (Node Js,) Data Bases (Mongo Db, Firebase) and Mobile Development (React Native). I look forward to helping you 
-          bring your ideas to life.
+            I’m a software engineer focused on building polished, production-oriented digital experiences. I enjoy working at the intersection
+            of engineering, product design, and user experience—turning ideas into responsive interfaces and functional products.
+            My experience spans React, React Native, Next.js, TypeScript, Supabase, API integration, and modern UI development.
+            I’m particularly interested in frontend architecture, interaction design, performance, and building software that feels as good as it functions.
           
         </h3>
       </div>
